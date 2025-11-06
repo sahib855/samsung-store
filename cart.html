@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Your Shopping Cart</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 20px; background-color: #f4f7f6; }
+        .cart-container { max-width: 800px; margin: 0 auto; background: white; padding: 20px; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
+        h1 { color: #1428a0; border-bottom: 2px solid #ddd; padding-bottom: 10px; }
+        .cart-item { display: flex; justify-content: space-between; align-items: center; padding: 15px 0; border-bottom: 1px solid #eee; }
+        .item-details { flex-grow: 1; }
+        .item-price, .item-quantity { width: 100px; text-align: right; font-weight: bold; }
+        .cart-summary { margin-top: 20px; border-top: 2px solid #1428a0; padding-top: 15px; text-align: right; }
+        .summary-row { display: flex; justify-content: space-between; margin-bottom: 8px; }
+        .total-row { font-size: 1.2em; font-weight: bold; color: #cc0000; }
+        .checkout-btn { background-color: #008cba; color: white; padding: 15px 30px; border: none; border-radius: 5px; cursor: pointer; font-size: 1.2em; margin-top: 20px; }
+        .continue-link { display: block; margin-top: 10px; color: #1428a0; text-decoration: none; }
+        .empty-message { text-align: center; color: #555; font-size: 1.1em; padding: 50px 0; }
+    </style>
+</head>
+<body>
+    <div class="cart-container">
+        <h1>🛒 Shopping Cart ({{ cart_count }} items)</h1>
+        <a href="{{ url_for('product_page') }}" class="continue-link">← Continue Shopping</a>
+
+        {% if not cart_items %}
+            <div class="empty-message">Your cart is empty.</div>
+        {% else %}
+            <div class="cart-item" style="font-weight: bold; border-bottom: 2px solid #ccc; margin-bottom: 10px;">
+                <div class="item-details">Product Name</div>
+                <div class="item-quantity">Quantity</div>
+                <div class="item-price">Price</div>
+                <div class="item-price">Subtotal</div>
+            </div>
+
+            {% for item in cart_items %}
+                <div class="cart-item">
+                    <div class="item-details">{{ item.model_name }}</div>
+                    <div class="item-quantity">{{ item.quantity }}</div>
+                    <div class="item-price">${{ item.price | round(2) }}</div>
+                    <div class="item-price">${{ (item.price * item.quantity) | round(2) }}</div>
+                </div>
+            {% endfor %}
+
+            <div class="cart-summary">
+                <div class="summary-row">
+                    <span>Subtotal:</span>
+                    <span>${{ subtotal | round(2) }}</span>
+                </div>
+                <div class="summary-row">
+                    <span>Tax (10%):</span>
+                    <span>${{ tax | round(2) }}</span>
+                </div>
+                <div class="summary-row total-row">
+                    <span>Total:</span>
+                    <span>${{ total | round(2) }}</span>
+                </div>
+
+                <form method="POST" action="{{ url_for('place_order_action') }}">
+                    <button type="submit" class="checkout-btn">Place Order</button>
+                </form>
+            </div>
+        {% endif %}
+    </div>
+</body>
+</html>

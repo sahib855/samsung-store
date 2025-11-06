@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Products Menu</title>
+    <style>
+        /* --- General Layout & Header --- */
+        body { 
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; 
+            margin: 0; 
+            background-color: #eef2f5; 
+            color: #333; 
+            line-height: 1.6;
+        }
+        .header { 
+            background-color: #1428a0; 
+            color: white; 
+            padding: 15px 30px; 
+            display: flex; 
+            justify-content: space-between; 
+            align-items: center; 
+            box-shadow: 0 4px 6px rgba(0,0,0,0.2); 
+        }
+        .header h1 { 
+            margin: 0; 
+            font-size: 2.2em;
+            font-weight: 700;
+        }
+        .container { 
+            max-width: 1400px; 
+            margin: 0 auto; 
+            padding: 0 20px; 
+        }
+
+        /* --- Main Layout for Sidebar & Content --- */
+        .main-layout {
+            display: grid;
+            grid-template-columns: 200px 1fr; 
+            gap: 30px; 
+            margin-top: 25px;
+        }
+        
+        /* --- Sidebar Styling --- */
+        .sidebar {
+            background-color: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1); 
+            min-height: 80vh; 
+            position: sticky; 
+            top: 20px;
+        }
+        
+        .sidebar h2 {
+            font-size: 1.3em;
+            color: #1428a0; 
+            border-bottom: 2px solid #ddd; 
+            padding-bottom: 8px;
+            margin-top: 20px;
+            margin-bottom: 15px;
+            font-weight: 600;
+        }
+
+        /* --- Sidebar Category List Styling --- */
+        .sidebar-nav ul {
+            list-style: none;
+            padding: 0;
+            margin-bottom: 20px;
+        }
+        .sidebar-nav li a {
+            display: block;
+            padding: 8px 0;
+            color: #333; 
+            text-decoration: none; 
+            transition: color 0.2s;
+            font-size: 1em;
+            font-weight: 400; 
+            border-left: 3px solid transparent; 
+        }
+        .sidebar-nav li a:hover {
+            color: #1428a0; 
+            font-weight: 500;
+            background-color: #f0f4f7; 
+            padding-left: 5px;
+            border-left: 3px solid #1428a0;
+        }
+
+        /* --- Top User Controls (Now in Sidebar) --- */
+        .user-controls {
+            padding-bottom: 15px;
+            border-bottom: 1px solid #ddd;
+            margin-bottom: 15px;
+        }
+        .user-controls span {
+            display: block;
+            font-weight: 400; 
+            color: #555;
+            margin-bottom: 10px;
+            font-size: 0.9em;
+        }
+        .user-controls .action-link { 
+            display: inline-block;
+            color: #1428a0; 
+            text-decoration: none; 
+            margin-right: 15px; 
+            font-weight: 500; 
+            padding: 5px 0;
+        }
+        .user-controls .action-link:hover {
+            text-decoration: underline;
+            color: #007bff;
+        }
+        .cart-count { 
+            background-color: #ff3b30; 
+            color: white; 
+            border-radius: 50%; 
+            padding: 2px 8px; 
+            font-size: 0.75em; 
+            position: absolute; 
+            top: -5px; 
+            right: -15px; 
+            min-width: 20px; 
+            text-align: center;
+        }
+        .cart-link {
+            position: relative;
+        }
+
+
+        /* --- Main Content Styling --- */
+        .main-content h2 { 
+            color: #1428a0; 
+            font-size: 2.0em; 
+            font-weight: 600;
+            padding-bottom: 5px;
+            margin-bottom: 25px;
+        }
+        .main-content h3 {
+            color: #444; 
+            font-size: 1.4em;
+            margin-top: 25px;
+            padding-bottom: 5px;
+            border-bottom: 1px dashed #ccc; 
+        }
+        .product-grid { 
+            display: grid; 
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); 
+            gap: 20px; 
+            margin-top: 20px; 
+        }
+        .product-card { 
+            background: white; 
+            border: 1px solid #e0e6eb; 
+            border-radius: 10px; 
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05); 
+            overflow: hidden; 
+            display: flex; 
+            flex-direction: column; 
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+        .product-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 15px rgba(0,0,0,0.1);
+        }
+        
+        .product-card img { 
+            width: 100%; 
+            height: 140px; 
+            object-fit: contain; 
+            background-color: #ffffff; 
+            border-bottom: 1px solid #f0f0f0; 
+            padding: 5px 0; 
+        }
+
+        /* ADJUSTMENT: Further reduced Vertical Padding in Info Block */
+        .product-info { 
+            padding: 8px 15px; /* Reduced padding */
+            flex-grow: 1; 
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+        .product-name { 
+            font-weight: 600; 
+            font-size: 1.1em; 
+            color: #222; 
+            margin-top: 0;
+            margin-bottom: 5px; /* Tighter margin */
+        }
+        .product-inventory {
+            font-size: 0.85em;
+            color: #6c757d; 
+            margin-bottom: 5px;
+        }
+        .product-price { 
+            color: #007bff; 
+            font-size: 1.3em; 
+            font-weight: bold; 
+            margin: 5px 0 5px; /* Reduced top margin */
+        }
+
+        /* ADJUSTMENT: Further reduced Vertical Padding in Form Block */
+        .add-form { 
+            text-align: center; 
+            padding: 8px 15px; /* Reduced padding */
+            border-top: 1px solid #f0f0f0; 
+            background-color: #fafafa;
+        }
+        .add-to-cart-btn { 
+            background-color: #1428a0; 
+            color: white; 
+            padding: 6px 20px; /* Reduced button padding */
+            border: none; 
+            border-radius: 4px; 
+            cursor: pointer; 
+            font-size: 1em; 
+            font-weight: 600;
+            width: 100%; 
+            transition: background-color 0.2s ease;
+        }
+        .add-to-cart-btn:hover {
+            background-color: #007bff;
+        }
+    </style>
+    
+    </head>
+<body>
+    <div class="header">
+        <h1>Samsung Store</h1>
+    </div>
+
+    <div class="container">
+        {% with messages = get_flashed_messages() %}
+            {% if messages %}
+                <div class="flash-messages">
+                    {% for message in messages %}
+                        <p>{{ message }}</p>
+                    {% endfor %}
+                </div>
+            {% endif %}
+        {% endwith %}
+
+        <div class="main-layout">
+            
+            <div class="sidebar">
+                
+                <div class="user-controls">
+                    <span>Welcome, {{ logged_in_user }}!</span>
+                    <a href="{{ url_for('view_cart') }}" class="action-link cart-link">
+                        🛒 Cart 
+                        {% if cart_count is not none and cart_count > 0 %}
+                            <span class="cart-count">{{ cart_count }}</span>
+                        {% endif %}
+                    </a>
+                    <a href="{{ url_for('logout') }}" class="action-link">🚪 Logout</a>
+                </div>
+
+                <h2>Categories</h2>
+                
+                <div class="sidebar-nav">
+                    <ul>
+                    {% for category, series_data in menu_data.items() %}
+                        <li><a href="#{{ category | replace(' ', '_') | lower }}">{{ category }}</a></li>
+                    {% endfor %}
+                    </ul>
+                </div>
+
+            </div>
+
+            <div class="main-content">
+                
+                {% for category, series_data in menu_data.items() %}
+                    <h2 id="{{ category | replace(' ', '_') | lower }}">{{ category }}</h2>
+
+                    {% for series, products in series_data.items() %}
+                        <h3>{{ series }}</h3>
+                        
+                        <div class="product-grid">
+
+                            {% for product in products %}
+                                <div class="product-card">
+                                    <img src="{{ product.image_url }}" alt="{{ product.name }}">
+                                    
+                                    <div class="product-info">
+                                        <div>
+                                            <p class="product-name">{{ product.name }}</p>
+                                            <p class="product-inventory">In Stock: {{ product.inventory_count }}</p>
+                                        </div>
+                                        <p class="product-price">${{ product.price | round(2) }}</p>
+                                    </div>
+                                    <div class="add-form">
+                                        <form method="POST" action="{{ url_for('add_to_cart', 
+                                            model_id=product.id, 
+                                            model_name=product.name, 
+                                            price=product.price) 
+                                        }}">
+                                            <button type="submit" class="add-to-cart-btn">Add to Cart</button>
+                                        </form>
+                                    </div>
+                                </div>
+                            {% endfor %}
+                        </div>
+                        <br>
+                    {% endfor %}
+                {% endfor %}
+            </div>
+            
+        </div>
+    </div>
+</body>
+</html>

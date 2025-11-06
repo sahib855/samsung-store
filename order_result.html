@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Order Status</title>
+    <style>
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; text-align: center; margin-top: 150px; background-color: #f4f7f6; }
+        .card { padding: 40px; background: white; width: 500px; margin: auto; border-radius: 10px; box-shadow: 0 8px 16px rgba(0,0,0,0.2); }
+        .success { color: green; }
+        .error { color: red; }
+        button { background-color: #1428a0; color: white; padding: 12px 25px; border: none; border-radius: 5px; cursor: pointer; margin-top: 30px; font-size: 1.1em; }
+    </style>
+</head>
+<body>
+    <div class="card">
+        {% if success %}
+            <h1 class="success">🎉 ORDER PLACED SUCCESSFULLY!</h1>
+            <p style="font-size: 1.2em;">Your Order ID is: **{{ order_id }}**</p>
+            <p>Your items are being processed and inventory has been updated via PL/SQL.</p>
+        {% else %}
+            <h1 class="error">❌ ORDER FAILED</h1>
+            <p style="font-size: 1.2em;">**Reason:** {{ message }}</p>
+            <p>The transaction was rolled back to maintain data integrity (no stock change, no order record).</p>
+        {% endif %}
+
+        <a href="{{ url_for('product_page') }}"><button>Return to Products</button></a>
+    </div>
+</body>
+</html>
